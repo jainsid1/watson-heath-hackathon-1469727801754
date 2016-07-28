@@ -1,0 +1,98 @@
+<html>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<head>
+		<title>Patient Prescription Info</title>
+	</head>
+	<style>
+		#headerDiv {
+			background-color: #006699;
+			height: 75px;
+		}
+
+		#bodyDiv {
+			width: 100%;
+			height: 100%;
+		}
+
+		#title {
+			color: white;
+			display: inline-block;
+			height:50px;
+		}
+
+		#welcomeMessage {
+			color: white;
+			float: right;
+			margin-top: 20px;
+			margin-right: 5px;
+			font-size: 25px;
+		}
+
+		#titleText {
+			font-size: 35px;
+		}
+
+		.no-padding {
+			padding: 0px;
+		}
+
+		.full-height {
+			height: 100%;
+		}
+
+		#left-pane-div {
+			padding-top: 100px;
+			padding-left: 50px;
+			background-color: grey;
+		}
+
+		#selectElement {
+			width: 200px;
+			top: 30px;
+		}
+	</style>
+	<body>
+		<div id="headerDiv">
+			<span id="title">
+				<p id="titleText">Patient Prescription Information</p>
+			</span>
+			<span id="welcomeMessage">
+				<p>Welcome, Varun | Logout</p>
+			</span>
+		</div>
+
+		<div id="bodyDiv">
+			<div class="row">
+			    <div class="col-sm-3 no-padding full-height" id="left-pane-div">
+			    	<select size="4" id="selectElement">
+						<option value="volvo">Volvo</option>
+						<option value="saab">Saab</option>
+						<option value="opel">Opel</option>
+						<option value="audi">Audi</option>
+					</select>
+			  	</div>
+			  	<div class="col-sm-9 no-padding">
+			    	<div class="container">
+					  	<ul class="nav nav-tabs">
+						    <li class="active"><a data-toggle="tab" href="#drugInfoDiv">Drug Information</a></li>
+						    <li><a data-toggle="tab" href="#drugInteractionDiv">Drug Interactions</a></li>
+					  	</ul>
+
+					  	<div class="tab-content">
+						    <div id="drugInfoDiv" class="tab-pane fade in active">
+						      	<h3>Drug Information</h3>
+						      	<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						    </div>
+						    <div id="drugInteractionDiv" class="tab-pane fade">
+						      	<h3>Drug Interaction</h3>
+						      	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+						    </div>
+					  	</div>
+					</div>
+			  	</div>
+			</div>
+		</div>
+	</body>
+</html>
