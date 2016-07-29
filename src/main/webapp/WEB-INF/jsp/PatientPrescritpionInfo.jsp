@@ -171,7 +171,6 @@
 						url: "drug/interactions",
 						type: 'POST',
 						data: {
-							drugNames: ["cisplatin","methadone","venlafaxine", "aspirin","paracetamol","ibuprofen"],
 							primary: this.value
 						}, 
 						success: function(result) {
