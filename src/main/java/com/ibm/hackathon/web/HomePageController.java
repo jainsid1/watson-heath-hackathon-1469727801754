@@ -64,18 +64,18 @@ public class HomePageController {
 		cal.add(Calendar.MONTH, 1); 
 		Date endDate=cal.getTime();
 		Prescription prescription=new Prescription(user.getId(),user.getId(),start,endDate,uploadTime);
-		prescriptionSvc.save(prescription);
+	//	prescriptionSvc.save(prescription);
 		List<Prescription> loadedPrescription=prescriptionSvc.getAllCurrentPrescriptions(user.getId());
-		drugSrvc.save(new Drug("cisplatin",2));
-		drugSrvc.save(new Drug("ibuprofen",2));
-		drugSrvc.save(new Drug("paracetamol",12));
-		drugSrvc.save(new Drug("aspirin",12));
-		
+//		drugSrvc.save(new Drug("cisplatin",2));
+//		drugSrvc.save(new Drug("ibuprofen",2));
+//		drugSrvc.save(new Drug("paracetamol",12));
+//		drugSrvc.save(new Drug("aspirin",12));
+//		
 		
 
 		System.out.println(loadedPrescription);
 		
-		
+		System.out.println(drugSrvc.load(loadedPrescription));
 		System.out.println(user);
 		model.addAttribute("name","sid");
 		return "homePage";

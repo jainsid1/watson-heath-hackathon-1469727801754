@@ -31,5 +31,9 @@ public class Drug {
 	public void setPrescriptionID(int prescriptionID) {
 		this.prescriptionID = prescriptionID;
 	}
+	@Override
+	public String toString() {
+		return "Drug [drugID=" + drugID + ", name=" + name + ", prescriptionID=" + prescriptionID + "]";
+	}
 	
 }
