@@ -53,10 +53,14 @@ public class PrescriptionDAO implements IPrescriptionDAO {
 	
 	@Override
 	public void deletePrescription(int prescriptionID){
-	     String sql= "DELETE FROM presrciption WHERE prescription_id = :prescriptionID";
+	     String sql1= "DELETE FROM presrciption WHERE prescription_id = :prescriptionID";
+	     String sql0= "DELETE FROM drugs WHERE pres_id = :prescriptionID";
+
 	     Map<String,Object> namedParameters = new HashMap<>();  
 	      namedParameters.put("prescriptionID", prescriptionID);
-	      namedParameterJdbcTemplate.update(sql, namedParameters);
+	      namedParameterJdbcTemplate.update(sql0, namedParameters);
+	      namedParameterJdbcTemplate.update(sql1, namedParameters);
+
 	}
 	
 

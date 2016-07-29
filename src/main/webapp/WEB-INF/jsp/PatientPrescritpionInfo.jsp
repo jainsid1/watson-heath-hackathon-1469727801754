@@ -229,10 +229,15 @@
 									$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))+1);
 									$("#selectElement").attr('prescriptionId', result);
 									*/
-									$('#AddDrugForm')[0].reset();
-									$(this).dialog("close");
-									$.get("")
 									
+									$('#AddDrugForm')[0].reset();
+									
+									$("#selectElement").children().remove();
+									alert("here2");
+									for(var i=0;i<result.length;i++){
+										$("#selectElement").append("<option value='"+result[i].name+"'prescriptionId='"+result[i].prescriptionID+"'>"+result[i].name+"</option>");
+									}
+									$(this).dialog("close");									
 								}
 							});
                      	}
