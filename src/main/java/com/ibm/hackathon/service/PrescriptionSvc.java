@@ -33,4 +33,8 @@ public class PrescriptionSvc implements IPrescriptionSvc {
 		return prescriptions;
 	}
 
+	@Override
+	public void deletePrescription(int prescriptionID){
+		prescriptionDAO.deletePrescription(prescriptionID);
+	}
 }

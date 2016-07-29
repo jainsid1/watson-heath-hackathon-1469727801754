@@ -37,7 +37,6 @@ public class PrescriptionDAO implements IPrescriptionDAO {
 	      namedParameters.put("endDate", prescription.getFormatter().format(prescription.getEndDate()));
 	      namedParameters.put("upload_date",  prescription.getFormatter().format(prescription.getUpload_date()));
 	      namedParameters.put("key_str", AES_ENCRYPTION_KEY);
-
 	      namedParameterJdbcTemplate.update(sql, namedParameters);			
 	}
 	
@@ -52,6 +51,13 @@ public class PrescriptionDAO implements IPrescriptionDAO {
 		  return prescriptions;
 	}
 	
+	@Override
+	public void deletePrescription(int prescriptionID){
+	     String sql= "DELETE FROM presrciption WHERE prescription_id = :prescriptionID";
+	     Map<String,Object> namedParameters = new HashMap<>();  
+	      namedParameters.put("prescriptionID", prescriptionID);
+	      namedParameterJdbcTemplate.update(sql, namedParameters);
+	}
 	
 
 }
