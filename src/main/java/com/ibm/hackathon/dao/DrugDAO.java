@@ -1,5 +1,6 @@
 package com.ibm.hackathon.dao;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,9 @@ public class DrugDAO implements IDrugDAO{
 		}
 	    
 	    public List<Drug> load(List<Integer> prescriptionIDs){
+	    	if(prescriptionIDs.isEmpty()){
+	    		return Collections.<Drug>emptyList();
+	    	}
 //			  SqlParameterSource parameters = new BeanPropertySqlParameterSource(user);
 //		      Number id = insertUser.executeAndReturnKey(parameters);
 			  String sql= "select drug_id,AES_DECRYPT(name, :key_str) as name,pres_id from drugs WHERE pres_id in (:pres_id_param)";

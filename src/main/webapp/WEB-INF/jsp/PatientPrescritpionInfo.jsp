@@ -232,10 +232,11 @@
 									$('#AddDrugForm')[0].reset();
 									
 									$("#selectElement").children().remove();
-									alert("here2");
 									for(var i=0;i<result.length;i++){
 										$("#selectElement").append("<option value='"+result[i].name+"'prescriptionId='"+result[i].prescriptionID+"'>"+result[i].name+"</option>");
 									}
+									$("#selectElement").attr('size', result.length);
+
 									$(this).dialog("close");									
 								}
 							});
