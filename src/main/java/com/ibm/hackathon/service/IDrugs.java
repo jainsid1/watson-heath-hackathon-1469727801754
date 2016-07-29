@@ -8,7 +8,7 @@ import com.ibm.hackathon.model.interaction.DrugInteraction;
 
 public interface IDrugs {
 	public DrugNames getDrugNamesNormalized();
-	public DrugInteraction getDrugInteraction(List<String> drugNames);
+	public DrugInteraction getDrugInteraction(List<String> drugNames,String primaryDrugName);
 	public List<String>  getListOfDrugsFoundInText(String text);
 	public TradeName getDrugTradeName(String drugName);
 	public List<String> getDrugNamesFromTradeName(String tradeName);
