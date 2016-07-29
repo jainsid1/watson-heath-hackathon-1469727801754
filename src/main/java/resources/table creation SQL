@@ -1,0 +1,14 @@
+CREATE TABLE `ad_5c709d0a555cca4`.`user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARBINARY(100) NOT NULL,
+  `uname` VARBINARY(100) NOT NULL,
+  `pwd` VARBINARY(100) NOT NULL,
+  `email` VARBINARY(100) NULL,
+  `mobile_number` VARBINARY(100) NULL,
+  `role` VARBINARY(100) NOT NULL,
+  `dob` VARBINARY(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uname_UNIQUE` (`uname` ASC),
+  UNIQUE INDEX `mobile_number_UNIQUE` (`mobile_number` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC));
+  

@@ -1,5 +1,6 @@
 package com.ibm.hackathon.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,10 @@ public class UserDAO implements IUserDAO {
 	      namedParameters.put("uname_param", uname);
 	      namedParameters.put("key_str", AES_ENCRYPTION_KEY);
 		  List<User> users=namedParameterJdbcTemplate.query(sql, namedParameters, new UserMapper());
+		  if(users==null){
+			  users=new ArrayList<>();
+			  users.add(new User("Invalid User","Invalid User",null,"","","",""));
+		  }
 		  return users.get(0);
 	}
 	
