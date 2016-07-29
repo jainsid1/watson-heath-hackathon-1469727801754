@@ -23,30 +23,22 @@
 	</div>
 	<!-- Form Module-->
 	<div class="module form-module">
-		<div class="toggle">
-			<i class="fa fa-times fa-pencil"></i>
-			<div class="tooltip">Create An Account</div>
-		</div>
+		<div class="toggle"><i class="fa fa-times fa-pencil"></i>
+    		<div class="tooltip">Create An Account</div>
+  		</div>
 		<div class="form">
 			<h2>Login to your account</h2>
 			<form name="loginForm" method="POST" action="home">
-				<input type="text" name="username" placeholder="Username"/> 
-				<input type="password" name="password" placeholder="Password"/>
-				<button>Login</button>
+				<input type="text" name="username" placeholder="Username" required/> 
+				<input type="password" name="password" placeholder="Password" required/>
+				<div>
+					${message}
+				</div>
+				<button>Login</button><br />
 			</form>
-			<div>
-			${message}
-			</div>
-		</div>	
+		</div>
 	</div>
 	<script
 		src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-	<script src='http://codepen.io/andytran/pen/vLmRVp.js'></script>
-
-	<script src="js/index.js"></script>
-
-
-
-
 </body>
 </html>
