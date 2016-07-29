@@ -23,7 +23,6 @@ public class HomePageController {
 	@Autowired
 	IDrugs drugsAPI;
 	@RequestMapping(value="/home")
-
 	public String home() {
 		return "homePage";
 	}
