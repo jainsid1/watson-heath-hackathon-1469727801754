@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.ibm.hackathon.model.User;
 
-public class UserMapper implements RowMapper {
+public class UserMapper implements RowMapper<User> {
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 		User user = new User();
 		user.setDob(new String((byte[]) rs.getObject("dob")));

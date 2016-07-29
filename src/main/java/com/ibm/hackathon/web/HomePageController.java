@@ -1,5 +1,7 @@
 package com.ibm.hackathon.web;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ibm.hackathon.dao.ISampleDAO;
+import com.ibm.hackathon.model.Drug;
 import com.ibm.hackathon.model.DrugNames;
+import com.ibm.hackathon.model.Prescription;
 import com.ibm.hackathon.model.User;
 import com.ibm.hackathon.model.interaction.DrugInteraction;
 import com.ibm.hackathon.model.patientEducation.PatientEducation;
+import com.ibm.hackathon.service.IDrugSrvc;
 import com.ibm.hackathon.service.IDrugs;
+import com.ibm.hackathon.service.IPrescriptionSvc;
 import com.ibm.hackathon.service.IUsrSrvc;
 
 @Controller
@@ -29,6 +35,10 @@ public class HomePageController {
 	IDrugs drugsAPI;
 	@Autowired
 	IUsrSrvc usrSrvc;
+	@Autowired
+	IPrescriptionSvc prescriptionSvc;
+	@Autowired
+	IDrugSrvc drugSrvc;
 	@RequestMapping(value="/home")
 	public String home() {
 		return "homePage";
@@ -48,6 +58,24 @@ public class HomePageController {
 //		User user=new User("Siddharth","sid","securedPassword#123","jas@jdkd.com","8123277163","patient","09-08-1997");
 //		usrSrvc.save(user);
 		User user=usrSrvc.load("sid");
+		Calendar cal=Calendar.getInstance();
+		Date start=cal.getTime();
+		Date uploadTime=start;
+		cal.add(Calendar.MONTH, 1); 
+		Date endDate=cal.getTime();
+		Prescription prescription=new Prescription(user.getId(),user.getId(),start,endDate,uploadTime);
+		prescriptionSvc.save(prescription);
+		List<Prescription> loadedPrescription=prescriptionSvc.getAllCurrentPrescriptions(user.getId());
+		drugSrvc.save(new Drug("cisplatin",2));
+		drugSrvc.save(new Drug("ibuprofen",2));
+		drugSrvc.save(new Drug("paracetamol",12));
+		drugSrvc.save(new Drug("aspirin",12));
+		
+		
+
+		System.out.println(loadedPrescription);
+		
+		
 		System.out.println(user);
 		model.addAttribute("name","sid");
 		return "homePage";

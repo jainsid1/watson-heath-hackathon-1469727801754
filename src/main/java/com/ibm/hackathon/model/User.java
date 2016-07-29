@@ -1,7 +1,7 @@
 package com.ibm.hackathon.model;
 
 public class User {
-	long id;
+	int id;
 	String name;
 	String uname;
 	String pwd;
@@ -31,10 +31,10 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getUname() {

@@ -12,6 +12,18 @@ public class Prescription {
 	private Date upload_date;
 	private SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd-hh.mm.ss");
 	
+	
+	public Prescription() {
+		super();
+	}
+	public Prescription(int user_id, int uploaded_by, Date startDate, Date endDate, Date upload_date) {
+		super();
+		this.user_id = user_id;
+		this.uploaded_by = uploaded_by;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.upload_date = upload_date;
+	}
 	public int getPrescription_id() {
 		return prescription_id;
 	}
@@ -54,6 +66,13 @@ public class Prescription {
 	public void setFormatter(SimpleDateFormat formatter) {
 		this.formatter = formatter;
 	}
+	@Override
+	public String toString() {
+		return "Prescription [prescription_id=" + prescription_id + ", user_id=" + user_id + ", uploaded_by="
+				+ uploaded_by + ", startDate=" + startDate + ", endDate=" + endDate + ", upload_date=" + upload_date
+				+ "]";
+	}
+	
 	
 	
 }
