@@ -48,8 +48,7 @@ public class UserDAO implements IUserDAO {
 	      namedParameters.put("uname_param", uname);
 	      namedParameters.put("key_str", AES_ENCRYPTION_KEY);
 		  List<User> users=namedParameterJdbcTemplate.query(sql, namedParameters, new UserMapper());
-		  if(users==null){
-			  users=new ArrayList<>();
+		  if(users.isEmpty()){
 			  users.add(new User("Invalid User","Invalid User",null,"","","",""));
 		  }
 		  return users.get(0);

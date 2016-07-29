@@ -3,8 +3,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>   
 <html>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 	<head>
 		<title>Patient Prescription Info</title>
 	</head>
@@ -77,16 +79,25 @@
 		<div id="bodyDiv">
 			<div class="row">
 			    <div class="col-sm-3 no-padding full-height" id="left-pane-div">
-			    	<select size="4" id="selectElement">
-						<option value="cisplatin">cisplatin</option>
-						<option value="methadone">methadone</option>
-						<option value="venlafaxine">venlafaxine</option>
-						<option value="abcd">abcd</option>
-					</select>
-					<br>
-					<button id="addButton">Add</button>
-					<button id="removeButton">Remove</button>
-			  	</div>
+			    	<div>
+	                    <select size="4" id="selectElement">
+	                        <option value="cisplatin">cisplatin</option>
+	                        <option value="methadone">methadone</option>
+	                        <option value="venlafaxine">venlafaxine</option>
+	                        <option value="abcd">abcd</option>
+	                    </select> <br>
+	                    <button id="addButton">Add</button>
+	                    <button id="removeButton">Remove</button>
+	                </div>
+	                <br> <br>
+	                <div>
+	                    <form method="POST" action="upload" enctype="multipart/form-data">
+	                        <p>Upload Prescription Image:</p>
+	                        <input type="file" name="file" id="file" />  </br>
+	                        <input type="submit" value="Upload" name="upload" id="upload"/>
+	                    </form>
+	                </div>
+                </div>
 			  	<div class="col-sm-9 no-padding">
 			    	<div class="container">
 					  	<ul class="nav nav-tabs">
@@ -107,6 +118,24 @@
 					</div>
 			  	</div>
 			</div>
+		</div>
+		
+		<div id="dialog-form" title="Add new medicine">
+		  <p class="validateTips">All form fields are required.</p>
+		 
+		  <form id="AddDrugForm">
+		    <fieldset>
+		      <label for="drugName">Drug Name</label><br />
+		      <input type="text" name="drugName" id="drugName" value="" class="text ui-widget-content ui-corner-all" required><br />
+		      <label for="startDate">Prescription Start Date</label>
+		      <input type="date" name="startDate" id="startDate" placeholder="MM-DD-YYYY" class="text ui-widget-content ui-corner-all" required>
+		      <label for="endDate">Prescription End Date</label>
+		      <input type="date" name="endDate" id="endDate" placeholder="MM-DD-YYYY" class="text ui-widget-content ui-corner-all" required>
+		 
+		      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+		      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+		    </fieldset>
+		  </form>
 		</div>
 		
 		<script>
@@ -157,13 +186,13 @@
 					});
 				});
 				
-				$('#addButton').click(function () {
+				/* $('#addButton').click(function () {
 					var newDrug = prompt("Enter the name of the drug you want to add:")
 					if(newDrug != null) {
 						$("#selectElement").append("<option value='"+newDrug+"'>"+newDrug+"</option>");
 						$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))+1);
 					}
-				});
+				}); */
 				
 				$('#removeButton').click(function() {
 					var remove = confirm("Are you sure you want to remove this drug?")
@@ -173,10 +202,31 @@
 					}			
 				});
 				
+				$('#dialog-form').dialog({
+					autoOpen: false,
+                    modal: true,
+                    buttons: { 
+                    	"Cancel": function() {
+                    		$('#AddDrugForm')[0].reset();
+                        	$(this).dialog("close")
+                    	},
+                        "Add Drug": function() {
+                        	$(this).dialog("close")
+                        	$("#selectElement").append("<option value='"+$('#drugName').val()+"'>"+$('#drugName').val()+"</option>");
+							$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))+1);
+							$('#AddDrugForm')[0].reset();
+                     	}
+                   }
+                });
+				
+				$('#addButton').click(function() {
+					$('#dialog-form').dialog('open')
+				});
+				
 				function capitalizeFirstLetter(string) {
 	    			return string.charAt(0).toUpperCase() + string.slice(1);
 				}
-			});
+  			});
 		</script>
 	</body>
 </html>
