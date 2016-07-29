@@ -11,6 +11,6 @@ public interface IDrugs {
 	public DrugInteraction getDrugInteraction(List<String> drugNames);
 	public List<String>  getListOfDrugsFoundInText(String text);
 	public TradeName getDrugTradeName(String drugName);
-
+	public List<String> getDrugNamesFromTradeName(String tradeName);
 	
 }

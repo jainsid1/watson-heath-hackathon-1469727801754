@@ -4,7 +4,7 @@ import java.util.List;
 
 public class TradeName {
 	String name;
-	List<String> tradeNames;
+	List<String> tradenames;
 	List<Integer> rxCuiValues;
 	public String getName() {
 		return name;
@@ -12,17 +12,22 @@ public class TradeName {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<String> getTradeNames() {
-		return tradeNames;
+	
+	public List<String> getTradenames() {
+		return tradenames;
 	}
-	public void setTradeNames(List<String> tradeNames) {
-		this.tradeNames = tradeNames;
+	public void setTradenames(List<String> tradenames) {
+		this.tradenames = tradenames;
 	}
 	public List<Integer> getRxCuiValues() {
 		return rxCuiValues;
 	}
 	public void setRxCuiValues(List<Integer> rxCuiValues) {
 		this.rxCuiValues = rxCuiValues;
+	}
+	@Override
+	public String toString() {
+		return "TradeName [name=" + name + ", tradenames=" + tradenames + ", rxCuiValues=" + rxCuiValues + "]";
 	}
 	
 	
