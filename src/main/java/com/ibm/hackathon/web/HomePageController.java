@@ -27,8 +27,8 @@ public class HomePageController {
 	public String home() {
 		return "homePage";
 	}
-	@RequestMapping(value = "hello")
-	public String hello(Model model) {
+	@RequestMapping(value = "test")
+	public String test(Model model) {
 		System.out.println("hello");
 		sampleDAO.doNothing();
 		DrugNames names = drugsAPI.getDrugNamesNormalized();
