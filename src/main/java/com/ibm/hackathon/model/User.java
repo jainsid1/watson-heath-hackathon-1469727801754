@@ -11,6 +11,9 @@ public class User {
 	String dob;
 	
 	
+	public User() {
+		super();
+	}
 	public User(String name, String uname, String pwd, String email, String mobile_number, String role,
 			String dob) {
 		super();
@@ -70,5 +73,12 @@ public class User {
 	public void setDob(String dob) {
 		this.dob = dob;
 	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", uname=" + uname + ", pwd=" + pwd + ", email=" + email
+				+ ", mobile_number=" + mobile_number + ", role=" + role + ", dob=" + dob + "]";
+	}
+	
+	
 	
 }
