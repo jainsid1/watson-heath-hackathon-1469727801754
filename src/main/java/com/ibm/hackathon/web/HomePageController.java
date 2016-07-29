@@ -1,5 +1,6 @@
 package com.ibm.hackathon.web;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -85,7 +86,12 @@ public class HomePageController {
 	
 	@ResponseBody
 	@RequestMapping(value = "drug/interactions")
-	public DrugInteraction getDrugInteraction(@RequestParam(value="drugNames")List<String> drugNames,@RequestParam(value="primary")  String primaryDrugName){
+	public DrugInteraction getDrugInteraction(HttpSession session,@RequestParam(value="primary")  String primaryDrugName){
+		List<Drug> drugs=getPrescribedDrug(session);
+		List<String> drugNames=new ArrayList<String>();
+		for(Drug drug:drugs){
+			drugNames.add(drug.getName());
+		}
 		DrugInteraction interaction=drugsAPI.getDrugInteraction(drugNames,primaryDrugName);
 		return interaction;
 	}
