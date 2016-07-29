@@ -15,6 +15,7 @@ import com.ibm.hackathon.model.DrugNames;
 import com.ibm.hackathon.model.TradeName;
 import com.ibm.hackathon.model.interaction.Datum;
 import com.ibm.hackathon.model.interaction.DrugInteraction;
+import com.ibm.hackathon.model.patientEducation.PatientEducation;
 
 @Service
 public class Drugs implements IDrugs {
@@ -26,6 +27,8 @@ public class Drugs implements IDrugs {
 
 	private static final String DRUG_FROM_TRADE_URL = "https://watsonpow01.rch.stglabs.ibm.com/services/drug-info/api/v1/drugmap/tradenames/{tradeName}/drugnames?caseSensitive=false&source=ATC";
 	private static final String DRUG_TRADE_NAME_URL = "https://watsonpow01.rch.stglabs.ibm.com/services/drug-info/api/v1/drugmap/drugnames/{drugName}?caseSensitive=false&source=ATC";
+	private static final String PATIENT_INFO_URL ="http://watsonwrkp32.rch.stglabs.ibm.com:9102/services/drug-info/api/v1/drugdetail/drugs/{drugName}/patientEducation";
+	
 	// "http://watsonwrkp32.rch.stglabs.ibm.com:9102/services/drug-info/api/v1/drugmap/tradenames/";
 
 	@Override
@@ -100,6 +103,12 @@ public class Drugs implements IDrugs {
 		RestTemplate restTemplate = new RestTemplate();
 		DrugNames drugNames = restTemplate.getForObject(DRUG_FROM_TRADE_URL, DrugNames.class, tradeName);
 		return drugNames.getData();
+	}
+	
+	public PatientEducation getDrugInfoForPatient(String drugName){
+		RestTemplate restTemplate = new RestTemplate();
+		PatientEducation education = restTemplate.getForObject(PATIENT_INFO_URL, PatientEducation.class, drugName);
+		return education;	
 	}
 
 }

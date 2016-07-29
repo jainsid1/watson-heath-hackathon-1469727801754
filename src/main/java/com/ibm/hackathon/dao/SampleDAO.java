@@ -16,7 +16,7 @@ public class SampleDAO implements ISampleDAO{
 		System.out.println(dataSource);
 		
 		 JdbcTemplate jt = new JdbcTemplate(dataSource);
-		 //jt.execute("create table sample(test char)");
+		 jt.execute("select 1 from dual");
 	}
 
 }
