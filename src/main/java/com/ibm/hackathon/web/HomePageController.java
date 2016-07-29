@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,6 +97,13 @@ public class HomePageController {
 		return information;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "drug/prescribed")
+	public List<Drug> getPrescribedDrug(HttpSession session){
+		User user=(User)session.getAttribute("user");
+		List<Prescription> loadedPrescription=prescriptionSvc.getAllCurrentPrescriptions(user.getId());
+		return drugSrvc.load(loadedPrescription);
+	}
 	
 
 }
