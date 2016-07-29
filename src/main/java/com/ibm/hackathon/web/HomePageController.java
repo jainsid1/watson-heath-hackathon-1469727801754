@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ibm.hackathon.dao.ISampleDAO;
 import com.ibm.hackathon.model.DrugNames;
 import com.ibm.hackathon.model.interaction.DrugInteraction;
+import com.ibm.hackathon.model.patientEducation.PatientEducation;
 import com.ibm.hackathon.service.IDrugs;
 
 @Controller
@@ -49,6 +50,13 @@ public class HomePageController {
 	public DrugInteraction getDrugInteraction(@RequestParam(value="drugNames")List<String> drugNames,@RequestParam(value="primary")  String primaryDrugName){
 		DrugInteraction interaction=drugsAPI.getDrugInteraction(drugNames,primaryDrugName);
 		return interaction;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "drug/patientEducation")
+	public PatientEducation getDrugInformation(@RequestParam(value="drugName")  String drugName){
+		PatientEducation information = drugsAPI.getDrugInfoForPatient(drugName);
+		return information;
 	}
 	
 

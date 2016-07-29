@@ -55,6 +55,14 @@
 			width: 200px;
 			top: 30px;
 		}
+		
+		table {
+			border-collapse: collapse;
+		}
+		table, th, td {
+		   border: 1px solid black;
+		   text-align: center;
+		}
 	</style>
 	<body>
 		<div id="headerDiv">
@@ -70,10 +78,11 @@
 			<div class="row">
 			    <div class="col-sm-3 no-padding full-height" id="left-pane-div">
 			    	<select size="4" id="selectElement">
-						<option selected value="cisplatin">cisplatin</option>
+						<option value="cisplatin">cisplatin</option>
 						<option value="ibuprofen">ibuprofen</option>
-						<option value="opel">Opel</option>
-						<option value="audi">Audi</option>
+						<option value="aspirin">aspirin</option>
+						<option value="methadone">methadone</option>
+						<option value="venlafaxine">venlafaxine</option>
 					</select>
 					<br>
 					<button>Add</button>
@@ -89,16 +98,68 @@
 					  	<div class="tab-content">
 						    <div id="drugInfoDiv" class="tab-pane fade in active">
 						      	<h3>Drug Information</h3>
-						      	<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						      	<p>Select a drug to get information about it</p>
 						    </div>
 						    <div id="drugInteractionDiv" class="tab-pane fade">
 						      	<h3>Drug Interaction</h3>
-						      	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+						      	<p>Select a drug to get information about its interactions with the other drugs</p>
 						    </div>
 					  	</div>
 					</div>
 			  	</div>
 			</div>
 		</div>
+		
+		<script>
+			jQuery.ajaxSettings.traditional = true;
+			$('#selectElement').on('change', function() {
+				selectedDrug = this.value
+				$.ajax({
+					url: "drug/patientEducation",
+					type: 'POST',
+					data: {
+						drugName: this.value
+					}, 
+					success: function(result) {
+						var html = "<h3>"+capitalizeFirstLetter(selectedDrug)+"</h3><br />"
+						html += "<b>"+result.data[0].descriptionHeader+"</b><br />"+ result.data[0].description + "<br /><br />"
+						html += "<b>"+result.data[0].contraindicationsHeader+"</b><br />"+ result.data[0].contraindications + "<br /><br />"
+						html += "<b>"+result.data[0].administrationHeader+"</b><br />"+ result.data[0].administration + "<br /><br />"
+						html += "<b>"+result.data[0].missedDoseHeader+"</b><br />"+ result.data[0].missedDose + "<br /><br />"
+						html += "<b>"+result.data[0].interactionsHeader+"</b><br />"+ result.data[0].interactions + "<br /><br />"
+						html += "<b>"+result.data[0].monitoringHeader+"</b><br />"+ result.data[0].monitoring + "<br /><br />"
+						html += "<b>"+result.data[0].sideEffectsHeader+"</b><br />"+ result.data[0].sideEffects + "<br /><br />"
+						html += "<b>"+result.data[0].storageHeader+"</b><br />"+ result.data[0].storage + "<br /><br />"
+						
+						$('#drugInfoDiv').html(html)
+					}
+				});
+				
+				$.ajax({
+					url: "drug/interactions",
+					type: 'POST',
+					data: {
+						drugNames: ["cisplatin","methadone","venlafaxine", "aspirin","paracetamol","ibuprofen"],
+						primary: this.value
+					}, 
+					success: function(result) {
+						var html = "<h3>Drug Interaction</h3><br /><table><tr><th>Drug Name</th><th>Severity</th><th>Notes</th></tr>"
+						for(var i = 0; i < result.data.length; i++) {
+							if(result.data[i].interactionSetADrugList[0] == selectedDrug) {
+								html += "<tr><td>"+result.data[i].interactionSetBDrugList[0]+"</td><td>"+result.data[i].severity+"</td><td>"+result.data[i].consumerNotes+"</td></tr>"
+							} else if(result.data[i].interactionSetBDrugList[0] == selectedDrug) {
+								html += "<tr><td>"+result.data[i].interactionSetADrugList[0]+"</td><td>"+result.data[i].severity+"</td><td>"+result.data[i].consumerNotes+"</td></tr>"
+							}
+						}
+						html += "</table>"
+						$('#drugInteractionDiv').html(html)
+					}
+				});
+			});
+			
+			function capitalizeFirstLetter(string) {
+    			return string.charAt(0).toUpperCase() + string.slice(1);
+			}
+		</script>
 	</body>
 </html>
