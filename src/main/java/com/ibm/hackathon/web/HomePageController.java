@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ibm.hackathon.dao.ISampleDAO;
 import com.ibm.hackathon.model.DrugNames;
+import com.ibm.hackathon.model.interaction.DrugInteraction;
 import com.ibm.hackathon.service.IDrugs;
 
 @Controller
+
+@RequestMapping(value = "/")
+
 public class HomePageController {
 	
 	@Autowired
@@ -22,10 +26,9 @@ public class HomePageController {
 
 	public String home() {
 		return "homePage";
-		}
-	
+	}
 	@RequestMapping(value = "hello")
-	public String hello1(Model model) {
+	public String hello(Model model) {
 		System.out.println("hello");
 		sampleDAO.doNothing();
 		DrugNames names = drugsAPI.getDrugNamesNormalized();
