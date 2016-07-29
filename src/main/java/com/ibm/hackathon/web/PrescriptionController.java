@@ -6,13 +6,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ibm.hackathon.model.Prescription;
 import com.ibm.hackathon.model.User;
 import com.ibm.hackathon.service.IPrescriptionSvc;
-
+@Controller
 public class PrescriptionController {
 	@Autowired
 	IPrescriptionSvc prescriptionSvc;
