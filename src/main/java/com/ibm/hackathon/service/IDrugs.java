@@ -14,5 +14,4 @@ public interface IDrugs {
 	public TradeName getDrugTradeName(String drugName);
 	public List<String> getDrugNamesFromTradeName(String tradeName);
 	public PatientEducation getDrugInfoForPatient(String drugName);
-	
 }
