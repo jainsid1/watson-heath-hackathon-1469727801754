@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>   
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
@@ -80,11 +82,10 @@
 			<div class="row">
 			    <div class="col-sm-3 no-padding full-height" id="left-pane-div">
 			    	<div>
-	                    <select size="4" id="selectElement">
-	                        <option value="cisplatin">cisplatin</option>
-	                        <option value="methadone">methadone</option>
-	                        <option value="venlafaxine">venlafaxine</option>
-	                        <option value="abcd">abcd</option>
+	                  <select id="selectElement">
+							<c:forEach items="${currentDrugs}" var="drug"> 
+  								<option value="${drug.name}" prescriptionID="${drug.prescriptionID}">${drug.name}</option>
+							</c:forEach>
 	                    </select> <br>
 	                    <button id="addButton">Add</button>
 	                    <button id="removeButton">Remove</button>
@@ -141,6 +142,8 @@
 		<script>
 			jQuery.ajaxSettings.traditional = true;
 			$(document).ready(new function() {
+				$("#selectElement").attr("size",$("#selectElement").children().length);
+				
 				$('#selectElement').on('change', function() {
 					selectedDrug = this.value
 					$.ajax({
@@ -186,19 +189,20 @@
 					});
 				});
 				
-				/* $('#addButton').click(function () {
-					var newDrug = prompt("Enter the name of the drug you want to add:")
-					if(newDrug != null) {
-						$("#selectElement").append("<option value='"+newDrug+"'>"+newDrug+"</option>");
-						$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))+1);
-					}
-				}); */
-				
 				$('#removeButton').click(function() {
 					var remove = confirm("Are you sure you want to remove this drug?")
 					if(remove == true) {
-						$("#selectElement option:selected").remove();
-						$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))-1);	
+						$.ajax({
+							url: "prescription/remove",
+							type: 'POST',
+							data: {
+								prescriptionID: $('#selectElement option:selected').attr('prescriptionId'),
+							}, 
+							success: function(result) {
+								$("#selectElement option:selected").remove();
+								$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))-1);
+							}
+						});	
 					}			
 				});
 				
@@ -211,10 +215,26 @@
                         	$(this).dialog("close")
                     	},
                         "Add Drug": function() {
-                        	$(this).dialog("close")
-                        	$("#selectElement").append("<option value='"+$('#drugName').val()+"'>"+$('#drugName').val()+"</option>");
-							$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))+1);
-							$('#AddDrugForm')[0].reset();
+							$.ajax({
+								url: "prescription/add",
+								type: 'POST',
+								data: {
+									drugName: $('#drugName').val(),
+									startDate: $('#startDate').val(),
+									endDate: $('#endDate').val()
+								}, 
+								success: function(result) {
+									/*
+									$("#selectElement").append("<option value='"+$('#drugName').val()+"'>"+$('#drugName').val()+"</option>");
+									$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))+1);
+									$("#selectElement").attr('prescriptionId', result);
+									*/
+									$('#AddDrugForm')[0].reset();
+									$(this).dialog("close");
+									$.get("")
+									
+								}
+							});
                      	}
                    }
                 });
