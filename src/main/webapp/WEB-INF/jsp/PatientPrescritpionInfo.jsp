@@ -79,14 +79,13 @@
 			    <div class="col-sm-3 no-padding full-height" id="left-pane-div">
 			    	<select size="4" id="selectElement">
 						<option value="cisplatin">cisplatin</option>
-						<option value="ibuprofen">ibuprofen</option>
-						<option value="aspirin">aspirin</option>
 						<option value="methadone">methadone</option>
 						<option value="venlafaxine">venlafaxine</option>
+						<option value="abcd">abcd</option>
 					</select>
 					<br>
-					<button>Add</button>
-					<button>Remove</button>
+					<button id="addButton">Add</button>
+					<button id="removeButton">Remove</button>
 			  	</div>
 			  	<div class="col-sm-9 no-padding">
 			    	<div class="container">
@@ -112,54 +111,72 @@
 		
 		<script>
 			jQuery.ajaxSettings.traditional = true;
-			$('#selectElement').on('change', function() {
-				selectedDrug = this.value
-				$.ajax({
-					url: "drug/patientEducation",
-					type: 'POST',
-					data: {
-						drugName: this.value
-					}, 
-					success: function(result) {
-						var html = "<h3>"+capitalizeFirstLetter(selectedDrug)+"</h3><br />"
-						html += "<b>"+result.data[0].descriptionHeader+"</b><br />"+ result.data[0].description + "<br /><br />"
-						html += "<b>"+result.data[0].contraindicationsHeader+"</b><br />"+ result.data[0].contraindications + "<br /><br />"
-						html += "<b>"+result.data[0].administrationHeader+"</b><br />"+ result.data[0].administration + "<br /><br />"
-						html += "<b>"+result.data[0].missedDoseHeader+"</b><br />"+ result.data[0].missedDose + "<br /><br />"
-						html += "<b>"+result.data[0].interactionsHeader+"</b><br />"+ result.data[0].interactions + "<br /><br />"
-						html += "<b>"+result.data[0].monitoringHeader+"</b><br />"+ result.data[0].monitoring + "<br /><br />"
-						html += "<b>"+result.data[0].sideEffectsHeader+"</b><br />"+ result.data[0].sideEffects + "<br /><br />"
-						html += "<b>"+result.data[0].storageHeader+"</b><br />"+ result.data[0].storage + "<br /><br />"
-						
-						$('#drugInfoDiv').html(html)
+			$(document).ready(new function() {
+				$('#selectElement').on('change', function() {
+					selectedDrug = this.value
+					$.ajax({
+						url: "drug/patientEducation",
+						type: 'POST',
+						data: {
+							drugName: this.value
+						}, 
+						success: function(result) {
+							var html = "<h3>"+capitalizeFirstLetter(selectedDrug)+"</h3><br />"
+							html += "<b>"+result.data[0].descriptionHeader+"</b><br />"+ result.data[0].description + "<br /><br />"
+							html += "<b>"+result.data[0].contraindicationsHeader+"</b><br />"+ result.data[0].contraindications + "<br /><br />"
+							html += "<b>"+result.data[0].administrationHeader+"</b><br />"+ result.data[0].administration + "<br /><br />"
+							html += "<b>"+result.data[0].missedDoseHeader+"</b><br />"+ result.data[0].missedDose + "<br /><br />"
+							html += "<b>"+result.data[0].interactionsHeader+"</b><br />"+ result.data[0].interactions + "<br /><br />"
+							html += "<b>"+result.data[0].monitoringHeader+"</b><br />"+ result.data[0].monitoring + "<br /><br />"
+							html += "<b>"+result.data[0].sideEffectsHeader+"</b><br />"+ result.data[0].sideEffects + "<br /><br />"
+							html += "<b>"+result.data[0].storageHeader+"</b><br />"+ result.data[0].storage + "<br /><br />"
+							
+							$('#drugInfoDiv').html(html)
+						}
+					});
+					
+					$.ajax({
+						url: "drug/interactions",
+						type: 'POST',
+						data: {
+							drugNames: ["cisplatin","methadone","venlafaxine", "aspirin","paracetamol","ibuprofen"],
+							primary: this.value
+						}, 
+						success: function(result) {
+							var html = "<h3>Drug Interaction</h3><br /><table><tr><th>Drug Name</th><th>Severity</th><th>Notes</th></tr>"
+							for(var i = 0; i < result.data.length; i++) {
+								if(result.data[i].interactionSetADrugList[0] == selectedDrug) {
+									html += "<tr><td>"+result.data[i].interactionSetBDrugList[0]+"</td><td>"+result.data[i].severity+"</td><td>"+result.data[i].consumerNotes+"</td></tr>"
+								} else if(result.data[i].interactionSetBDrugList[0] == selectedDrug) {
+									html += "<tr><td>"+result.data[i].interactionSetADrugList[0]+"</td><td>"+result.data[i].severity+"</td><td>"+result.data[i].consumerNotes+"</td></tr>"
+								}
+							}
+							html += "</table>"
+							$('#drugInteractionDiv').html(html)
+						}
+					});
+				});
+				
+				$('#addButton').click(function () {
+					var newDrug = prompt("Enter the name of the drug you want to add:")
+					if(newDrug != null) {
+						$("#selectElement").append("<option value='"+newDrug+"'>"+newDrug+"</option>");
+						$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))+1);
 					}
 				});
 				
-				$.ajax({
-					url: "drug/interactions",
-					type: 'POST',
-					data: {
-						drugNames: ["cisplatin","methadone","venlafaxine", "aspirin","paracetamol","ibuprofen"],
-						primary: this.value
-					}, 
-					success: function(result) {
-						var html = "<h3>Drug Interaction</h3><br /><table><tr><th>Drug Name</th><th>Severity</th><th>Notes</th></tr>"
-						for(var i = 0; i < result.data.length; i++) {
-							if(result.data[i].interactionSetADrugList[0] == selectedDrug) {
-								html += "<tr><td>"+result.data[i].interactionSetBDrugList[0]+"</td><td>"+result.data[i].severity+"</td><td>"+result.data[i].consumerNotes+"</td></tr>"
-							} else if(result.data[i].interactionSetBDrugList[0] == selectedDrug) {
-								html += "<tr><td>"+result.data[i].interactionSetADrugList[0]+"</td><td>"+result.data[i].severity+"</td><td>"+result.data[i].consumerNotes+"</td></tr>"
-							}
-						}
-						html += "</table>"
-						$('#drugInteractionDiv').html(html)
-					}
+				$('#removeButton').click(function() {
+					var remove = confirm("Are you sure you want to remove this drug?")
+					if(remove == true) {
+						$("#selectElement option:selected").remove();
+						$("#selectElement").attr('size', parseInt($("#selectElement").attr("size"))-1);	
+					}			
 				});
+				
+				function capitalizeFirstLetter(string) {
+	    			return string.charAt(0).toUpperCase() + string.slice(1);
+				}
 			});
-			
-			function capitalizeFirstLetter(string) {
-    			return string.charAt(0).toUpperCase() + string.slice(1);
-			}
 		</script>
 	</body>
 </html>
