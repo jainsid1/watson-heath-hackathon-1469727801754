@@ -13,14 +13,20 @@ import com.ibm.hackathon.model.interaction.DrugInteraction;
 import com.ibm.hackathon.service.IDrugs;
 
 @Controller
+
 @RequestMapping(value = "/")
 
 public class HomePageController {
+	
 	@Autowired
 	ISampleDAO sampleDAO;
 	@Autowired
 	IDrugs drugsAPI;
+	@RequestMapping(value="/home")
 
+	public String home() {
+		return "homePage";
+	}
 	@RequestMapping(value = "hello")
 	public String hello(Model model) {
 		System.out.println("hello");
@@ -36,4 +42,5 @@ public class HomePageController {
 		model.addAttribute("name","sid");
 		return "homePage";
 	}
+
 }
